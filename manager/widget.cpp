@@ -214,7 +214,7 @@ void Widget::on_sellOkBtn_clicked()
     int last = ui->sellNumSpinBox->maximum() - value;
 
     QSqlQuery query;
-    query.exec(QString("select sell from brand where name = '%1' and type = '%2'").arg(name).arg(type));
+    query.exec(QString("select sell from brand where name = '%1' and type = '%2'").arg(name, type));
     query.next();
     int sell = query.value(0).toInt() + value;
 
