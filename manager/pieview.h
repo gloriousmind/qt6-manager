@@ -2,6 +2,7 @@
 #define PIEVIEW_H
 
 #include <QAbstractItemView>
+#include <QRubberBand>
 
 class PieView : public QAbstractItemView
 {
