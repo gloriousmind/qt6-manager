@@ -14,7 +14,7 @@ PieView::PieView(QWidget * parent) : QAbstractItemView(parent)
     margin = 8;
     totalSize = 230;
     pieSize = totalSize - 2 * margin;
-    validItems = 0;
+    product_has_sold_cnt = 0;
     totalValue = 0;
     rubberBand = nullptr;
     option = new QStyleOptionViewItem;
@@ -82,7 +82,7 @@ void PieView::paintEvent(QPaintEvent * event)
 
     QRect pieRect = QRect(margin, margin, pieSize, pieSize);
 
-    if (validItems <= 0)
+    if (product_has_sold_cnt <= 0)
         return;
 
     painter.save();
@@ -158,7 +158,7 @@ void PieView::scrollTo(const QModelIndex& index, QAbstractItemView::ScrollHint)
 
 void PieView::dataChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight, const QVector<int> &roles)
 {
-    validItems = 0;
+    product_has_sold_cnt = 0;
     totalValue = 0;
     for (int row = 0; row < model()->rowCount(QModelIndex()); ++row)
     {
@@ -168,7 +168,7 @@ void PieView::dataChanged(const QModelIndex & topLeft, const QModelIndex & botto
         if (value > 0)
         {
             totalValue += value;
-            validItems++;
+            product_has_sold_cnt++;
         }
     }
     QAbstractItemView::dataChanged(topLeft, bottomRight);
@@ -184,7 +184,7 @@ bool PieView::edit(const QModelIndex & index, QAbstractItemView::EditTrigger tri
 
 QModelIndex PieView::indexAt(const QPoint & point) const
 {
-    if (validItems == 0)
+    if (product_has_sold_cnt == 0)
         return QModelIndex();
 
     int wx = point.x() + horizontalScrollBar()->value();
@@ -414,7 +414,7 @@ void PieView::rowsInserted(const QModelIndex & parent, int start, int end)
         if (value > 0)
         {
             totalValue += value;
-            ++validItems;
+            ++product_has_sold_cnt;
         }
     }
     QAbstractItemView::rowsInserted(parent, start, end);
@@ -429,7 +429,7 @@ void PieView::rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end
         if (value > 0)
         {
             totalValue -= value;
-            --validItems;
+            --product_has_sold_cnt;
         }
     }
     QAbstractItemView::rowsAboutToBeRemoved(parent, start, end);

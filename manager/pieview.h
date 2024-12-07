@@ -3,6 +3,7 @@
 
 #include <QAbstractItemView>
 #include <QRubberBand>
+#include <QStyleOptionViewItem>
 
 class PieView : public QAbstractItemView
 {
@@ -44,7 +45,7 @@ private:
     int margin;
     int totalSize; //逻辑上容纳饼分图矩形大小
     int pieSize;   //逻辑上饼分图大小
-    int validItems;
+    int product_has_sold_cnt;
     int totalValue;
     QPoint origin;
     QRubberBand * rubberBand;
