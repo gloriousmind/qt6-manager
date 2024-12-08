@@ -28,12 +28,12 @@ QRect PieView::itemRect(const QModelIndex & index) const
         return QRect();
     // Check whether the index's row is in the list of rows represented
     // by slices.
-    QModelIndex valueIndex;
+    QModelIndex salesIndex;
     if (index.column() != 1)
-        valueIndex = model()->index(index.row(), 1, rootIndex());
+        salesIndex = model()->index(index.row(), 1, rootIndex());
     else
-        valueIndex = index;
-    if (model()->data(valueIndex).toInt() <= 0)
+        salesIndex = index;
+    if (model()->data(salesIndex).toInt() <= 0)
         return QRect();
 
     int display_row_num = 0;
