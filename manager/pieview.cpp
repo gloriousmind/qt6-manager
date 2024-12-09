@@ -179,7 +179,11 @@ bool PieView::edit(const QModelIndex & index, QAbstractItemView::EditTrigger tri
     if (index.column() == 0)
         return QAbstractItemView::edit(index, trigger, event);
     else
+    {
+        if (trigger == DoubleClicked)
+            qDebug() << "modifying pie is not allowed!";
         return false;
+    }
 }
 
 QModelIndex PieView::indexAt(const QPoint & point) const
