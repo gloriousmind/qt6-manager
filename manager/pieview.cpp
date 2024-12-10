@@ -8,6 +8,7 @@
 #include <QAbstractItemView>
 #include <QDebug>
 #include <QSqlQuery>
+#include <QApplication>
 
 PieView::PieView(QWidget * parent) : QAbstractItemView(parent)
 {
@@ -251,12 +252,12 @@ bool PieView::isIndexHidden(const QModelIndex &) const
 
 int PieView::horizontalOffset() const
 {
-    return 0;
+    return horizontalScrollBar()->value();
 }
 
 int PieView::verticalOffset() const
 {
-    return 0;
+    return verticalScrollBar()->value();
 }
 
 void PieView::mousePressEvent(QMouseEvent * event)
@@ -264,7 +265,7 @@ void PieView::mousePressEvent(QMouseEvent * event)
     QAbstractItemView::mousePressEvent(event);
     origin = event->position().toPoint();
     if (!rubberBand)
-        rubberBand = new QRubberBand(QRubberBand::Rectangle, viewport());
+        rubberBand = new QRubberBand(QRubberBand::Line, viewport());
     rubberBand->setGeometry(QRect(origin, QSize()));
     rubberBand->show();
 }
@@ -294,6 +295,7 @@ QModelIndex PieView::moveCursor(QAbstractItemView::CursorAction cursorAction, Qt
     case MoveUp :
     {
         QModelIndex temp = current;
+        QModelIndex old = current;
         for (int row = temp.row() - 1; row >= 0; row--)
         {
             temp = model()->index(row, temp.column(), temp.parent());
@@ -303,12 +305,15 @@ QModelIndex PieView::moveCursor(QAbstractItemView::CursorAction cursorAction, Qt
                 break;
             }
         }
+        if (old == current)
+            QApplication::beep();
         break;
     }
     case MoveRight :
     case MoveDown :
     {
         QModelIndex temp = current;
+        QModelIndex old = current;
         for (int row = temp.row() + 1; row < model()->rowCount(temp.parent()); row++)
         {
             temp = model()->index(row, temp.column(), temp.parent());
@@ -318,6 +323,8 @@ QModelIndex PieView::moveCursor(QAbstractItemView::CursorAction cursorAction, Qt
                 break;
             }
         }
+        if (old == current)
+            QApplication::beep();
         break;
     }
     default :
