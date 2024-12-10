@@ -222,7 +222,7 @@ QModelIndex PieView::indexAt(const QPoint & point) const
             }
         }
     }
-    else
+    else if (wx > totalSize + margin && wx < totalSize + margin + option->decorationSize.width() + QFontMetrics(option->font).horizontalAdvance("产品品牌"))
     {
 
         double itemHeight = QFontMetrics(option->font).height();
@@ -251,12 +251,12 @@ bool PieView::isIndexHidden(const QModelIndex &) const
 
 int PieView::horizontalOffset() const
 {
-    return horizontalScrollBar()->value();
+    return 0;
 }
 
 int PieView::verticalOffset() const
 {
-    return verticalScrollBar()->value();
+    return 0;
 }
 
 void PieView::mousePressEvent(QMouseEvent * event)
