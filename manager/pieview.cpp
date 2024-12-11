@@ -403,8 +403,9 @@ void PieView::setSelection(const QRect& rect, QItemSelectionModel::SelectionFlag
     viewport()->update();
 }
 
-void PieView::resizeEvent(QResizeEvent *)
+void PieView::resizeEvent(QResizeEvent *event)
 {
+    QAbstractScrollArea::resizeEvent(event);
     updateGeometries();
 }
 
